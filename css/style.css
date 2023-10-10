@@ -1,0 +1,47 @@
+
+
+*{
+    border: 2px red solid;
+    padding: 5px; 
+}
+body{
+    background-color: black;
+    color: white;
+}
+
+#Display{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+
+.Displayfeld{
+    padding: 20px;
+    width: 30%;
+    display: flex;
+    overflow:hidden;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.row{
+
+    width: 33%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#Tasten{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.colum{
+    display: flex;
+    width: 25%;
+    justify-content: center;
+}
