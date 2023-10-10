@@ -1,13 +1,13 @@
 function LoadCalc() {
 
     buildCalc();
-    var Calc = getCalculator();
+
 
 
 }
 
 
-function getCalculator() {
+function getCalculator(number1, operrator, number2) {
 
     class Calc {
         constructor(number1, operrator, number2) {
@@ -15,13 +15,36 @@ function getCalculator() {
             this.number2 = number2;
             this.operrator = operrator;
         }
-        add(number1, number2) { return number1 + number2; }
+        add(number1, number2) { return +number1 + +number2; }
         sub(number1, number2) { return number1 - number2; }
-        mult(number1, number2) { return number1 * number2l }
+        mult(number1, number2) { return number1 * number2; }
         div(number1, number2) { return number1 / number2; }
+        modu(number1, number2) { return number1 % number2; }
     }
 
-    return Calc;
+    const myCalc = new Calc(number1, operrator, number2);
+
+    switch (operrator) {
+
+        case "+":
+            return myCalc.add(number1, number2);
+            break;
+        case "-":
+            return myCalc.sub(number1, number2);
+            break;
+        case "/":
+            return myCalc.div(number1, number2);
+            break;
+        case "*":
+            return myCalc.mult(number1, number2);
+            break;
+        case "%":
+            return myCalc.modu(number1, number2);
+            break;
+
+    }
+
+
 }
 
 function buildCalc() {
@@ -36,7 +59,6 @@ function buildCalc() {
     Display.appendChild(Displayfeld);
     buildButtons(Tasten, Displayfeld);
 }
-
 function buildButtons(Tasten, Displayfeld) {
     var iter = 0;
     const CalcButtons = ["CA", "/", "*", "<--",
@@ -97,6 +119,12 @@ function Doshit(Displayfeld, colum, DisplayOutput) {
             break;
 
         case "=":
+
+            DisplayOutput.pop();
+            console.log("Roh Array : " + DisplayOutput);
+            DisplayOutput = findPoint(DisplayOutput);
+            console.log("Ergebnis: " + DisplayOutput);
+            Displayfeld.innerText = DisplayOutput;
             break;
 
         case "CA":
@@ -108,21 +136,37 @@ function Doshit(Displayfeld, colum, DisplayOutput) {
         case "<--":
             DisplayOutput.pop();
             DisplayOutput.pop();
-            Displayfeld.innerText = DisplayOutput.join(""); 
+            Displayfeld.innerText = DisplayOutput.join("");
             return;
             break;
 
         case "%":
+            Displayfeld.innerText += colum.innerText;
+            return;
             break;
 
         default:
 
-                Displayfeld.innerText += colum.innerText;
+           // console.log("Array: " + DisplayOutput);
+            //console.log("Länge: " + DisplayOutput.length);
+            if (DisplayOutput.length >= 2 &&
+                DisplayOutput[DisplayOutput.length - 2] != "+" &&
+                DisplayOutput[DisplayOutput.length - 2] != "-" &&
+                DisplayOutput[DisplayOutput.length - 2] != "/" &&
+                DisplayOutput[DisplayOutput.length - 2] != "*" &&
+                DisplayOutput[DisplayOutput.length - 2] != "%") {
+                //console.log("Array vor dem pop: " + DisplayOutput);
+                num = DisplayOutput.pop();
+                //console.log("poped num :" + num);
+                //console.log("Array nach dem pop:" + DisplayOutput);
+                DisplayOutput[DisplayOutput.length - 1] = DisplayOutput[DisplayOutput.length - 1] + num;
+            }
+            Displayfeld.innerText += colum.innerText;
+            
 
+            //console.log("Vagina:" + DisplayOutput);
 
-            console.log("Vagina:" + DisplayOutput);
-
-            console.log("Displayoutput: " + DisplayOutput);
+            //console.log("Displayoutput: " + DisplayOutput);
             return;
             break;
     }
@@ -133,3 +177,32 @@ function Doshit(Displayfeld, colum, DisplayOutput) {
     //Displayfeld.innerText += colum.innerText;
 
 }
+
+function findPoint(Array) {
+
+    // wir brauchen den formatierten Array das nur ganze zahelen oder die verrechenten Zahlen und die operatoren dirn sind. 
+
+    const operrators = ["/", "*", "%", "+", "-"];
+
+    for (var i = 0; i < operrators.length; i++) {
+        while (Array.includes(operrators[i])) {
+            //Solange operatoren da sind, werden die nummern verrechnet und durch ihre ergebnisse ersetzt
+            // Die Reihenfolge der OLperatoren im operatoren Array garantiert das punkt vor strich gewährleitet is
+            var positionOfTheOperator = Array.indexOf(operrators[i]);
+            var number1 = Array[positionOfTheOperator - 1];
+            var usedOperator = Array[positionOfTheOperator];
+            var number2 = Array[positionOfTheOperator + 1];
+            var result = getCalculator(number1, usedOperator, number2);
+            Array.splice(positionOfTheOperator - 1, 3, result);
+        }
+    }
+
+    return Array;
+}
+
+
+
+
+
+
+
