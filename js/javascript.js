@@ -55,7 +55,7 @@ function buildCalc() {
 
     var Displayfeld = document.createElement("div");
     Displayfeld.classList.add("Displayfeld");
-    Displayfeld.innerText = " ";
+    Displayfeld.innerText = "0";
     Display.appendChild(Displayfeld);
     buildButtons(Tasten, Displayfeld);
 }
@@ -130,6 +130,8 @@ function Doshit(Displayfeld, colum, DisplayOutput) {
         case "CA":
             DisplayOutput.length = 0;
             Displayfeld.innerText = DisplayOutput;
+
+            Displayfeld.innerText = "0";
             return;
             break;
 
@@ -147,7 +149,7 @@ function Doshit(Displayfeld, colum, DisplayOutput) {
 
         default:
 
-           // console.log("Array: " + DisplayOutput);
+            // console.log("Array: " + DisplayOutput);
             //console.log("Länge: " + DisplayOutput.length);
             if (DisplayOutput.length >= 2 &&
                 DisplayOutput[DisplayOutput.length - 2] != "+" &&
@@ -162,7 +164,7 @@ function Doshit(Displayfeld, colum, DisplayOutput) {
                 DisplayOutput[DisplayOutput.length - 1] = DisplayOutput[DisplayOutput.length - 1] + num;
             }
             Displayfeld.innerText += colum.innerText;
-            
+
 
             //console.log("Vagina:" + DisplayOutput);
 
